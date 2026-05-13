@@ -1,5 +1,5 @@
 import React from 'react';
-import AIEditor from './magicAIeditor'; // AI file ko connect kiya
+import AIEditor from './AIEditor'; // AI file ko connect kiya
 
 function App() {
   return (
