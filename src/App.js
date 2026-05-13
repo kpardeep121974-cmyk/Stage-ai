@@ -14,20 +14,13 @@ function App() {
     { name: "Arijit Singh", img: "https://i.scdn.co/image/ab6761610000e5eb026139ca7486e41c6969282c", id: "Heeriye" }
   ];
 
-  const plans = [
-    { name: "Mini", price: "₹7", duration: "1 Day", features: ["Ad-free mobile", "30 downloads"] },
-    { name: "Student", price: "₹59", duration: "Month", features: ["Full Premium", "Discounted"] },
-    { name: "Individual", price: "₹119", duration: "Month", features: ["1 Account", "Offline Play"] },
-    { name: "Family", price: "₹179", duration: "Month", features: ["6 Accounts", "Kids Filter"] }
-  ];
-
   const filteredArtists = artists.filter(a => a.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
   if (step === 'login') {
     return (
       <div style={{ background: '#000', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: 'white' }}>
         <h1 style={{ color: '#FF0000', fontSize: '4rem', letterSpacing: '10px' }}>STAGE.AI</h1>
-        <button onClick={() => setStep('language')} style={{ background: '#fff', color: '#000', padding: '15px 40px', borderRadius: '30px', fontWeight: 'bold', border: 'none', cursor: 'pointer' }}>Continue with Google</button>
+        <button onClick={() => setStep('language')} style={{ background: '#fff', color: '#000', padding: '15px 40px', borderRadius: '30px', fontWeight: 'bold', border: 'none', cursor: 'pointer', marginTop: '20px' }}>Enter Stage</button>
       </div>
     );
   }
@@ -58,64 +51,49 @@ function App() {
       </nav>
 
       <div style={{ padding: '40px' }}>
-        {/* MUSIC SECTION */}
         {activeTab === 'music' && (
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '30px' }}>
               <h1>Top Artists</h1>
-              <input type="text" placeholder="Search..." onChange={(e) => setSearchTerm(e.target.value)} style={{ padding: '10px 20px', borderRadius: '25px', background: '#111', border: '1px solid #FF0000', color: 'white' }} />
+              <input type="text" placeholder="Search Artist..." onChange={(e) => setSearchTerm(e.target.value)} style={{ padding: '10px 20px', borderRadius: '25px', background: '#111', border: '1px solid #FF0000', color: 'white' }} />
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '30px' }}>
               {filteredArtists.map(artist => (
-                <div key={artist.name} onClick={() => setCurrentVideoId(artist.id)} style={{ background: '#111', padding: '20px', borderRadius: '20px', textAlign: 'center', cursor: 'pointer' }}>
+                <div key={artist.name} onClick={() => setCurrentVideoId(artist.id)} style={{ background: '#111', padding: '20px', borderRadius: '20px', textAlign: 'center', cursor: 'pointer', border: '1px solid #222' }}>
                   <img src={artist.img} style={{ width: '130px', height: '130px', borderRadius: '50%', border: '2px solid #FF0000' }} alt={artist.name} />
-                  <h3>{artist.name}</h3>
+                  <h3 style={{ marginTop: '10px' }}>{artist.name}</h3>
                 </div>
               ))}
             </div>
           </div>
         )}
 
-        {/* AI STUDIO SECTION - HUN ADD KAR DITTA HAI */}
         {activeTab === 'ai' && (
           <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
-            <h2 style={{ color: '#FF0000' }}>Stage AI Studio</h2>
+            <h2 style={{ color: '#FF0000' }}>AI Magic Studio</h2>
             <div style={{ background: '#111', padding: '30px', borderRadius: '20px', marginTop: '20px', border: '1px solid #333' }}>
-              <h4>AI Music Script Writer</h4>
-              <textarea placeholder="Tell AI what kind of song you want..." style={{ width: '100%', height: '100px', background: '#222', border: 'none', color: '#fff', padding: '10px', marginTop: '10px' }}></textarea>
-              <button style={{ marginTop: '10px', background: '#FF0000', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '10px' }}>Generate Script</button>
+              <h4>AI Song Script Writer</h4>
+              <textarea placeholder="Lyrics likhwan layi topic duso..." style={{ width: '100%', height: '80px', background: '#222', color: '#fff', border: 'none', padding: '10px' }}></textarea>
+              <button style={{ marginTop: '15px', background: '#FF0000', color: '#fff', border: 'none', padding: '10px 30px', borderRadius: '10px' }}>Generate Script</button>
             </div>
-            <div style={{ background: '#111', padding: '30px', borderRadius: '20px', marginTop: '20px', border: '1px solid #333' }}>
-              <h4>AI Image/Poster Generator</h4>
-              <input type="text" placeholder="Describe your album cover..." style={{ width: '100%', padding: '10px', background: '#222', border: 'none', color: '#fff' }} />
-              <button style={{ marginTop: '10px', background: '#FF0000', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '10px' }}>Generate Poster</button>
-            </div>
-          </div>
-        )}
-
-        {activeTab === 'plans' && (
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '20px' }}>
-            {plans.map(p => (
-              <div key={p.name} style={{ background: '#111', padding: '25px', borderRadius: '20px', width: '220px', border: '1px solid #333' }}>
-                <h2 style={{ color: '#FF0000' }}>{p.name}</h2>
-                <h3>{p.price}</h3>
-                <button style={{ width: '100%', background: '#fff', padding: '10px', borderRadius: '20px', fontWeight: 'bold' }}>Get Plan</button>
-              </div>
-            ))}
           </div>
         )}
 
         {activeTab === 'settings' && (
           <div style={{ maxWidth: '600px', margin: '0 auto', background: '#111', padding: '40px', borderRadius: '20px', textAlign: 'center' }}>
-            <h2>Settings</h2>
-            <button onClick={() => setStep('login')} style={{ background: '#FF0000', color: '#fff', border: 'none', padding: '15px', borderRadius: '10px', width: '100%', fontWeight: 'bold', marginTop: '20px' }}>LOGOUT</button>
+            <h2>User Settings</h2>
+            <button onClick={() => setStep('login')} style={{ background: '#FF0000', color: '#fff', border: 'none', padding: '15px', borderRadius: '10px', width: '100%', fontWeight: 'bold', marginTop: '30px' }}>LOGOUT</button>
           </div>
         )}
+        
+        {/* Plans section add karna reh jaye toh yaha se content ayega */}
+        {activeTab === 'plans' && ( <div style={{textAlign:'center'}}><h2>Plans Coming Soon</h2></div> )}
       </div>
 
       {currentVideoId && (
         <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', background: '#111', borderTop: '2px solid #FF0000', padding: '10px' }}>
           <iframe width="100%" height="60" src={`https://www.youtube.com/embed/${currentVideoId}?autoplay=1`} frameBorder="0"></iframe>
+          <button onClick={()=>setCurrentVideoId('')} style={{position:'absolute', right:'20px', top:'10px', color:'red', background:'none', border:'none', fontSize:'20px'}}>X</button>
         </div>
       )}
     </div>
