@@ -1,56 +1,47 @@
-import React, { useState } from 'react';
-import { artists } from './MusicData';
+import React, { useState, useEffect } from 'react';
+import { getSpotifyToken, searchArtistSongs } from './SpotifyService';
 
 function App() {
-  const [likedArtists, setLikedArtists] = useState([]);
+  const [likedArtists, setLikedArtists] = useState([]); // Max 20 list
+  const [songs, setSongs] = useState([]);
 
-  const toggleLike = (artistName) => {
-    if (likedArtists.includes(artistName)) {
-      setLikedArtists(likedArtists.filter(a => a !== artistName));
-    } else if (likedArtists.length < 20) {
-      setLikedArtists([...likedArtists, artistName]);
+  // Jab user artist like kare
+  const handleLike = (artist) => {
+    if (likedArtists.length < 20) {
+      setLikedArtists([...likedArtists, artist]);
     } else {
-      alert("Aap sirf 20 artists hi select kar sakte hain!");
+      alert("Limit reached! 20 artists only.");
     }
   };
 
+  // Spotify se selected artists ke gaane lana
+  useEffect(() => {
+    const fetchMusic = async () => {
+      const token = await getSpotifyToken();
+      let allSongs = [];
+      for (let artist of likedArtists) {
+        const artistSongs = await searchArtistSongs(token, artist);
+        allSongs = [...allSongs, ...artistSongs];
+      }
+      setSongs(allSongs);
+    };
+    if (likedArtists.length > 0) fetchMusic();
+  }, [likedArtists]);
+
   return (
-    <div style={{ backgroundColor: '#121212', color: 'white', minHeight: '100vh', padding: '20px' }}>
-      <h1>Stage-ai Personalized Music</h1>
+    <div style={{ background: '#121212', color: 'white', padding: '20px' }}>
+      <h2>Select up to 20 Artists</h2>
+      {/* Yahan buttons banayein jo handleLike ko call karein */}
       
-      <h3>Select your top 20 Artists ({likedArtists.length}/20)</h3>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-        {artists.map(artist => (
-          <button 
-            key={artist.id}
-            onClick={() => toggleLike(artist.name)}
-            style={{
-              padding: '10px',
-              borderRadius: '20px',
-              border: 'none',
-              backgroundColor: likedArtists.includes(artist.name) ? '#1db954' : '#333',
-              color: 'white',
-              cursor: 'pointer'
-            }}
-          >
-            {artist.name}
-          </button>
+      <div className="feed">
+        {songs.map(track => (
+          <div key={track.id}>
+            <img src={track.album.images[0].url} width="50" alt="cover" />
+            <p>{track.name} - {track.artists[0].name}</p>
+            <audio controls src={track.preview_url}></audio> 
+          </div>
         ))}
       </div>
-
-      <hr style={{ margin: '40px 0' }} />
-
-      <h3>Your Personalized Feed</h3>
-      {likedArtists.length === 0 ? (
-        <p>Please select some artists to see their songs!</p>
-      ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
-          {/* Yahan hum logic lagayenge jo sirf selected artists ke gaane dikhayega */}
-          <p>Showing songs for: {likedArtists.join(", ")}</p>
-        </div>
-      )}
     </div>
   );
 }
-
-export default App;
