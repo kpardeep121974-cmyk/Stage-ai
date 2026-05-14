@@ -7,14 +7,14 @@ function App() {
   const [currentVideoId, setCurrentVideoId] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
-  // --- Artist List (Tenu hor gaane bharne ne ta bas yaha ID badal de) ---
+  // --- IDs HUN BILKUL SAHI NE (Real YouTube IDs) ---
   const artists = [
     { name: "Sidhu Moose Wala", img: "https://i.scdn.co/image/ab6761610000e5eb19db620023068e1363673c6a", id: "70m6_H_H9_Y", bio: "Legend" },
     { name: "Diljit Dosanjh", img: "https://i.scdn.co/image/ab6761610000e5eb1e967a57c1d7634f1ec5f79b", id: "cl0a3i2wDzQ", bio: "G.O.A.T" },
     { name: "Karan Aujla", img: "https://i.scdn.co/image/ab6761610000e5eb2d04a69e36500473e120803c", id: "9S7m9uN67-M", bio: "Geetan Di Machine" },
-    { name: "Shubh", img: "https://i.scdn.co/image/ab6761610000e5eb7986007e28c40331070624d4", id: "StillRollin", bio: "Elevated" },
+    { name: "Shubh", img: "https://i.scdn.co/image/ab6761610000e5eb7986007e28c40331070624d4", id: "hXm-zS-2nCg", bio: "Elevated" },
     { name: "Amrit Maan", img: "https://i.scdn.co/image/ab6761610000e5ebda6094469f6920f79669046c", id: "6xoBzk-Zk_8", bio: "Bamb Jatt" },
-    { name: "Satinder Sartaaj", img: "https://i.scdn.co/image/ab6761610000e5eb981880e61f2510860000d60c", id: "Udaarian", bio: "Sufi Prince" }
+    { name: "Arijit Singh", img: "https://i.scdn.co/image/ab6761610000e5eb026139ca7486e41c6969282c", id: "Heeriye", id: "RLzC55ai0eo", bio: "Soulful" }
   ];
 
   const filteredArtists = artists.filter(a => a.name.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -23,7 +23,7 @@ function App() {
     return (
       <div style={{ background: '#000', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: 'white' }}>
         <h1 style={{ color: '#FF0000', fontSize: '4rem', letterSpacing: '10px' }}>STAGE.AI</h1>
-        <button onClick={() => setStep('language')} style={{ background: '#fff', color: '#000', padding: '15px 50px', borderRadius: '30px', fontWeight: 'bold', border: 'none', cursor: 'pointer', marginTop: '20px' }}>ENTER THE STAGE</button>
+        <button onClick={() => setStep('language')} style={{ background: '#fff', color: '#000', padding: '15px 50px', borderRadius: '30px', fontWeight: 'bold', border: 'none', cursor: 'pointer' }}>ENTER THE STAGE</button>
       </div>
     );
   }
@@ -62,7 +62,6 @@ function App() {
                 <div key={artist.name} onClick={() => setCurrentVideoId(artist.id)} style={{ background: '#111', padding: '20px', borderRadius: '20px', textAlign: 'center', border: '1px solid #222', cursor: 'pointer' }}>
                   <img src={artist.img} style={{ width: '150px', height: '150px', borderRadius: '50%', border: '3px solid #FF0000' }} alt={artist.name} />
                   <h3>{artist.name}</h3>
-                  <p style={{ color: '#FF0000', fontSize: '12px' }}>{artist.bio}</p>
                 </div>
               ))}
             </div>
@@ -105,7 +104,8 @@ function App() {
 
       {currentVideoId && (
         <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', background: '#111', borderTop: '2px solid #FF0000', padding: '10px', zIndex: 1000 }}>
-          <iframe width="100%" height="80" src={`https://www.youtube.com/embed/${currentVideoId}?autoplay=1`} frameBorder="0" allow="autoplay"></iframe>
+          {/* Iframe src theek kiti hai */}
+          <iframe width="100%" height="80" src={`https://www.youtube.com/embed/${currentVideoId}?autoplay=1&mute=0`} frameBorder="0" allow="autoplay; encrypted-media"></iframe>
           <button onClick={() => setCurrentVideoId('')} style={{ position: 'absolute', right: '20px', top: '10px', color: 'red', background: 'none', border: 'none', fontSize: '20px' }}>X</button>
         </div>
       )}
